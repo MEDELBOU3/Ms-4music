@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/emoji-mart/css/emoji-mart.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.sound.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+
+
+</head>
+<body>
+
+
+
+    <div class="container">
+      
+        <div class="sidebar" id="sidebar">
+            <h1>SM_<i class="fas fa-music"></i>_music</h1>
+            <h2 style="margin: 10px auto;">Playlist</h2>
+            <ul id="playlist">
+                <!-- عناصر قائمة التشغيل ستضاف هنا -->
+            </ul>
+            <button id="load-more-playlist">Load More</button>
+        </div>
+        
+        <div class="main">
+            <div id="header" class="header">
+
+                <nav class="navbar">
+                    <div class="logo">
+                        <h1>SM_<i class="fas fa-music"></i>_music</h1>
+                    </div>
+                    <ul class="nav-links">
+                        <li><a href="#genres">GENRES</a></li>
+                        <li><a href="#">ALBUMS</a></li>
+                        <li><a href="#popular-songs">SONGS</a></li>
+                        <li><a href="#popular-artists">ARTISTS</a></li>
+                        <li><a href="#virtual-rooms">VIRTUAL-RMS</a></li>
+                        <li><a href="http://localhost:5000"><i class='bx bx-log-in'></i></a></li>
+                    </ul>
+                    <div class="burger">
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                    </div>
+                </nav>
+                <h1 id="current-track-title">Track Title</h1>
+                <p id="current-track-artist">Artist</p>
+                <audio id="audio-player" controls>
+                    <source id="audio-source" src="" type="audio/mpeg" >
+                    Your browser does not support the audio element.
+                </audio>
+                
+                
+                <div class="controls">
+                    <button id="prev-btn"><i class="fas fa-backward"></i></button>
+                    <button id="play-btn"><i class="fas fa-play"></i></button>
+                    <button id="pause-btn"><i class="fas fa-pause"></i></button>
+                    <button id="next-btn"><i class="fas fa-forward"></i></button>
+                </div>
+                <div id="ratings-section">
+                    <h3 style="position: relative; z-index: 1;">Rate this Song</h3>
+                    <div id="ratings" style=" font-size: 25px;  filter: drop-shadow(0 0 10px #000); cursor: pointer;  color:rgb(0, 255, 170); position: relative; z-index: 1;">
+                        <span class="star" data-value="1" >&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <p id="average-rating" style="color: #ccc; font-size: 16px; font-family:'Anton', sans-serif; filter: drop-shadow(0 0 10px #000); position: relative; z-index: 1;">Average Rating: 0</p>
+                </div>
+
+                    
+
+               <!-- Share Card -->
+
+        <div class="share">
+                <button class="share-btn" style="position: relative; z-index: 1; padding: 4px; font-size: 20px;"><i class="fas fa-share-alt"></i></button>
+           </div>
+                <div class="share-card">
+           <div class="share-content">
+              <span class="close-btn">&times;</span>
+               <h3>Share This Song</h3>
+                 <div class="social-icons">
+                   <a id="twitter" href="#" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                   <a id="facebook" href="#" target="_blank" title="Share on Facebook"><i class="fab fa-facebook"></i></a>
+                   <a id="whatsapp" href="#" target="_blank" title="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                   <a id="instagram" href="#" target="_blank" title="Share on Instagram"><i class="fab fa-instagram"></i></a>
+                 </div>
+               <input type="text" id="song-link" readonly>
+               <button id="copy-link-btn">Copy Link</button>
+           </div>
+         </div>
+                
+
+        </div>
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search for songs or artists">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <div id="lyrics" class="lyrics">
+                <h2>Lyrics</h2>
+                <p id="lyrics-content" style="margin: 0 auto;  line-height: 1.6; align-items: center; text-align:center;">Select a track to see the lyrics</p>
+            </div>
+            <div class="content">
+                
+
+               
+                <h2>Genres</h2>
+                <div id="genres" class="genre-list">
+                    <!-- أنواع الأغاني ستضاف هنا -->
+                </div>
+
+                <h2>Albums</h2>
+                <div id="albums">
+
+                </div>
+
+           
+                <!--Songs-->
+                <ul id="playlist" class="sortable" ></ul>
+                <button id="load-more-playlist">Load More</button>
+            
+                <h2>Popular Songs</h2>
+                <div id="popular-songs" class="song-list">
+                    <!-- الأغاني الشائعة ستضاف هنا -->
+                </div>
+                <h2>Popular Artists</h2>
+                <div id="popular-artists" class="artist-list">
+                    <!-- الفنانين الشائعين سيضافون هنا -->
+                </div>
+               
+                
+                <div id="recommendation-list">
+                    <h2 style=" margin: 10px auto;">virtual Rooms</h2>
+                    <!-- قائمة التوصيات ستظهر هنا -->
+                </div>
+
+                <main id="virtual-rooms">
+                    
+                    <section class="room-creation">
+                        <input type="text" id="room-name" placeholder="Enter Room Name">
+                        <button id="create-room">Create Room</button>
+                    </section>
+                    <section class="rooms-list">
+                        <h2>Available Rooms</h2>
+                        <ul id="rooms">
+                            <!-- Chat rooms will be dynamically added here -->
+                        </ul>
+                    </section>
+
+                    <section class="avatar-selection">
+                        <label for="avatar-select">Choose your avatar:</label>
+                        <select id="avatar-select" style="background-color: #1db954; color:#fff;">
+                            <option value="avatar1.png">Avatar 1</option>
+                            <option value="avatar2.png">Avatar 2</option>
+                            <option value="avatar3.png">Avatar 3</option>
+                            <option value="avatar4.png">Avatar 4</option>
+                            <option value="avatar5.png">Avatar 5</option>
+                            <option value="avatar6.png">Avatar 6</option>
+                            <option value="avatar7.png">Avatar 7</option>
+                            <option value="avatar8.png">Avatar 8</option>
+                        </select>
+                        <img id="selected-avatar" src="avatar1.png" alt="Avatar" class="avatar-image">
+                    </section>
+
+                    <section class="background-selection">
+                        <h2>Select background</h2>
+                        <div class="background-options">
+                            <div class="background-option" data-background="img1.jpg" style="background-image: url('img1.jpg'); background-size:cover; background-repeat: no-repeat; background-position: center;"></div>
+                            <div class="background-option" data-background="img2.jpg" style="background-image: url('img2.jpg');  background-repeat: no-repeat; background-size: cover; background-position: center;"></div>
+                            <div class="background-option" data-background="https://i.pinimg.com/736x/33/81/7d/33817de45b9d35df9208135eb5b9c39b.jpg" style="background-image: url('https://i.pinimg.com/736x/33/81/7d/33817de45b9d35df9208135eb5b9c39b.jpg');  background-repeat: no-repeat; background-size: cover; background-position: center;"></div>
+                            <div class="background-option" data-background="https://i.pinimg.com/736x/d0/f9/ac/d0f9acd37bc29353fe2e8434ce739815.jpg"  style=" background-image: url('https://i.pinimg.com/736x/d0/f9/ac/d0f9acd37bc29353fe2e8434ce739815.jpg');  background-size:cover; background-repeat: no-repeat; background-position: center;"></div>
+                            <div class="background-option" data-background="https://i.pinimg.com/736x/c3/c4/03/c3c403673f9e4ab5ec3c5b5d6e0a1279.jpg"  style=" background-image: url('https://i.pinimg.com/736x/c3/c4/03/c3c403673f9e4ab5ec3c5b5d6e0a1279.jpg');  background-size:cover; background-repeat: no-repeat; background-position: center;"></div>
+                            <div class="background-option" data-background="https://i.pinimg.com/736x/bf/d8/ed/bfd8ed02527f18070943b6ffacce0311.jpg"  style=" background-image: url('https://i.pinimg.com/736x/bf/d8/ed/bfd8ed02527f18070943b6ffacce0311.jpg');  background-size:cover; background-repeat: no-repeat; background-position: center;"></div>
+                            <div class="background-option" data-background="https://i.pinimg.com/736x/85/cd/e8/85cde83491ba085fc50c91015c8ef813.jpg"  style=" background-image: url('https://i.pinimg.com/736x/85/cd/e8/85cde83491ba085fc50c91015c8ef813.jpg');  background-size:cover; background-repeat: no-repeat; background-position: center;"></div>
+                            <div class="background-option" data-background="https://i.pinimg.com/736x/9c/52/b8/9c52b8f82e5af22670a4ea544415d5ed.jpg"  style=" background-image: url('https://i.pinimg.com/736x/9c/52/b8/9c52b8f82e5af22670a4ea544415d5ed.jpg');  background-size:cover; background-repeat: no-repeat; background-position: center;"></div>
+                            <div class="background-option" data-background="https://i.pinimg.com/736x/95/2b/5a/952b5a371c5e0e411afaaca340f7ab8d.jpg"  style=" background-image: url('https://i.pinimg.com/736x/95/2b/5a/952b5a371c5e0e411afaaca340f7ab8d.jpg');  background-size:cover; background-repeat: no-repeat; background-position: center;"></div>
+                            <div class="background-option" data-background="https://i.pinimg.com/736x/ea/b1/20/eab1207da589ec7d1a17696fa5e7ba32.jpg"  style=" background-image: url('https://i.pinimg.com/736x/ea/b1/20/eab1207da589ec7d1a17696fa5e7ba32.jpg');  background-size:cover; background-repeat: no-repeat; background-position: center;"></div>
+                            <div class="background-option" data-background="https://i.pinimg.com/736x/b6/3a/61/b63a61e65367e05550e399024314eebf.jpg"  style=" background-image: url('https://i.pinimg.com/736x/b6/3a/61/b63a61e65367e05550e399024314eebf.jpg');  background-size:cover; background-repeat: no-repeat; background-position: center;"></div>
+                            <div class="background-option" data-background="https://i.pinimg.com/736x/0c/96/7c/0c967c4af27aa805391e3be495936acd.jpg"  style=" background-image: url('https://i.pinimg.com/736x/0c/96/7c/0c967c4af27aa805391e3be495936acd.jpg');  background-size:cover; background-repeat: no-repeat; background-position: center;"></div>
+                        </div>
+                    </section>
+                    <section class="chat-section">
+                        <div id="chat-room" class="hidden">
+                            <h2 id="chat-room-name"></h2>
+                            <div id="messages" class="messages">
+                                <!-- Chat messages will be dynamically added here -->
+                             
+                            </div>
+                            <div class="outils" >
+                               <input type="text" id="message-input" style="width: 36%; height: 40px;"  placeholder="Type a message...">
+                               
+                               <button id="start-voice-chat" style="border-radius: 50%; padding: 10px;"><i class='bx bxs-microphone' style="font-size: 18px;"></i></button> <!-- New button for voice chat -->
+                               <button id="send-message" style=" border-radius: 50%; padding: 10px; justify-content: center;  align-items: center;"><i class='bx bxs-send' style=" font-size: 18px;"></i></button>
+                               <input type="text" id="voice-duration" readonly style="border: none; background: none; color: white;">
+                               
+                                
+                                  <input type="file" class="media-input" id="media-input" accept="image/*,video/*,audio*/">
+                               
+                               <button id="send-media" style="background-color: #18d85b; justify-content: center;
+                                align-items: center; margin: 10px auto;
+                                 border: none; padding: 10px;
+                                  color:#fff; border-radius: 50%;"><i class='bx bxs-send' style="font-size: 18px;"></i></button>
+                               <button id="start-call" style=" border-radius: 50%; padding: 10px;"><i class='bx bxs-phone-call' style='color:#ffffff; font-size: 18px;' ></i></button>
+                            </div>
+                        </div>
+                        
+                    </section>
+                    <section class="video-section hidden" id="video-section">
+                        <video id="local-video" autoplay muted></video>
+                        <video id="remote-video" autoplay></video>
+                        <button id="share-screen">Share Screen</button>
+                        <button id="end-call" style=" padding: 10px; border-radius: 50%;"><i class='bx bxs-phone-off' style="font-size: 18px;"></i></button>
+                    </section>
+                </main>
+                
+                
+
+                <!--Comments&Rating-->
+                <div id="comments-section">
+                    <h3>Comments</h3>
+                    <div id="comments-list"></div>
+                     <div class="comments-ms">
+                       <textarea id="comment-input" placeholder="Add a comment...">
+                       </textarea>
+                       <button id="submit-comment">Submit</button>
+                    </div>
+                </div>
+                
+                
+            
+                <div class="arrow">
+                     <a href="#header" style="color: #fff;"><i class='bx bxs-chevrons-up'></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function scrollToTop() {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // لتنعيم التمرير
+          });
+        }
+      </script>
+
+    <script>
+
+            function getQueryParams() {
+                const params = {};
+                let e, r = /([^&;=]+)=?([^&;]*)/g,
+                    q = window.location.search.substring(1);
+                while (e = r.exec(q)) {
+                    params[e[1]] = decodeURIComponent(e[2]);
+                }
+                return params;
+            }
+    
+            const params = getQueryParams();
+    
+            if (params.access_token) {
+                fetch('https://api.spotify.com/v1/me', {
+                    headers: {
+                        'Authorization': `Bearer ${params.access_token}`
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('user-info').innerText = `Logged in as ${data.display_name}`;
+                    // يمكنك الآن استخدام التوكن للوصول إلى Spotify API
+                });
+            } else {
+                document.getElementById('user-info').innerText = 'Error: No access token found';
+            }
+    
+
+        const burger = document.querySelector('.burger');
+        const navLinks = document.querySelector('.nav-links');
+
+        burger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        burger.classList.toggle('toggle');
+        });
+
+    </script>
+
+
+    <script src="rating.js"></script>
+</body>
+</html>
+
+
+
+
+
